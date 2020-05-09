@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const User = require("./../models/user-model");
+const { authentication } = require("./../auth/auth");
 
-router.get("/users", async (req, res) => {
+router.get("/users", authentication, async (req, res) => {
   try {
     const user = await User.query().where("department", req.user.department);
     res.json(user);

@@ -6,12 +6,12 @@ router.post("/register", auth.signup, (req, res) => {
 });
 
 router.post("/login", auth.login, (req, res) => {
-  res.json({ message: `Successful login as ${req.session.user.displayName}.` });
+  res.json({ message: `Successful logged in.` });
 });
 
 router.get("/logout", (req, res) => {
   if (req.cookies) {
-    req.cookie("token", null);
+    res.cookie("token", "");
     res.json({ message: "Logout successful." });
   }
 });

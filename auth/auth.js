@@ -7,7 +7,7 @@ exports.signup = async (req, res, next) => {
     const { password } = req.body;
     const hash = bcrypt.hashSync(password, 10);
 
-    if (User.isExist(req.body.email))
+    if (await User.isExist(req.body.email))
       return res.status(409).json({ message: "Email is already in use." });
 
     const user = await User.create({
@@ -32,7 +32,6 @@ exports.login = async (req, res, next) => {
         id: user.id,
         department: user.department,
       };
-
       // Sign token
       const accessToken = jwt.sign(tokenPayload, process.env.JWT_SECRET);
 
@@ -62,6 +61,7 @@ exports.authentication = async (req, res, next) => {
       }
 
       req.user = await User.findById(decodePayload.id);
+
       next();
     });
   } catch (error) {
